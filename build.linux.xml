@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="linux" basedir=".">
+    <!-- Create a .deb package -->
+    <!-- To create the debian package(for ubuntu), in a linux terminal, from
+         project dir:
+    ant deb
+ 
+         To install it:
+    sudo dpkg -i ./dist/jaguaribe-0.1.deb
+    -->
+    <target name="deb" depends="source">
+        <!-- Empty the directory and recreate it -->
+        <delete dir="${basedir}/tmp" /> 
+        <mkdir dir="${basedir}/tmp" />
+        
+        <!-- Umpack the source file(created by source target) -->
+        <gunzip src="${basedir}/dist/source.tar.gz" dest="${basedir}/tmp" />
+        <untar src="${basedir}/tmp/source.tar" dest="${basedir}/tmp" />
+        
+        <!-- Build the jar file -->
+        <ant dir="${basedir}/tmp" target="jar" />
+        
+        <!-- Copy files from source to appropriate places -->
+        <copy overwrite="true" todir="${basedir}/tmp/linux/ubuntu/usr/share/jaguaribe">
+            <fileset dir="${basedir}/tmp/dist">
+                <include name="Jaguaribe.jar" />
+            </fileset>
+            <fileset dir="${basedir}/tmp">    
+                <include name="lib/**" />
+            </fileset>
+        </copy>
+        
+        <!-- Fix the permissions for files -->
+        <chmod file="${basedir}/tmp/linux/ubuntu/usr/bin/jaguaribe" perm="ugo+rx"/>    
+        
+        <!-- Create the file and copy to right place -->
+        <exec executable="dpkg-deb">
+            <arg value="-b" />
+            <arg value="./tmp/linux/ubuntu"/>
+        </exec> 
+        <move file="${basedir}/tmp/linux/ubuntu.deb" tofile="${basedir}/dist/jaguaribe-0.1.deb" />
+    </target>
+    
+    <target name="source">
+        <delete dir="${basedir}/tmp" /> 
+        <mkdir dir="${basedir}/tmp" />
+        <copy todir="${basedir}/tmp">
+            <fileset dir="${basedir}">
+                <include name="AUTHORS.txt" />
+                <include name="LICENSE.txt" />
+                <include name="README.txt" />
+                <include name="TODO.txt" />
+                <include name="src/**" />
+                <include name="build*.xml" />
+                <include name="lib/**" />
+                <include name="linux/ubuntu/**" />
+                <include name="nbproject/**" />
+            </fileset>
+        </copy>
+        <tar destfile="${basedir}/dist/source.tar" basedir="tmp"/>
+        <gzip destfile="${basedir}/dist/source.tar.gz" src="${basedir}/dist/source.tar"/>
+    </target>
+</project>

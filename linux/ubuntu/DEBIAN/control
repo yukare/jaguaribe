@@ -1,0 +1,9 @@
+Package: jaguaribe
+Version: 0.1
+Section: graphics
+Maintainer: Fernando Correa da Conceição <fernando@jaguaribe.info>
+Homepage: http://java.net/project/jaguaribe
+Priority: optional
+Architecture: all
+Description: Image browser in Java
+ This is an image browser in java.

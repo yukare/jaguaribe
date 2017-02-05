@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Jaguaribe
+Comment=The image brownser
+Exec=/bin/sh "/usr/bin/jaguaribe"
+Icon=/usr/share/jaguaribe/jaguaribe.ico
+Categories=Graphics
+MimeType=image/jpeg;image/png;
+Version=1.0
+Type=Application
+Terminal=0

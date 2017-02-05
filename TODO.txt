@@ -1,0 +1,3 @@
+    This file just holds some annotations of simple tasks and things like this.
+    The better way to see the remaining tasks/bugs is at the oficial bugtracker
+for the project at http://java.net/jira/browse/JAGUARIBE
